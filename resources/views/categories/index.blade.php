@@ -6,12 +6,13 @@
     <title><?php echo config('app.name') ;  ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 
+
 </head>
 <body>
 <h1>
     Categories
 </h1>
-<small><a href="/categories/create">Create</a></small>
+<h3><a href="/categories/create" class="btn btn-primary">Create</a></h3>
 <table>
     <thead>
         <tr>
