@@ -67,6 +67,17 @@
     <div class="container">
         <h1>Create Category</h1>
 
+        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
         <form action="/categories" method="post" enctype="multipart/form-data">
             @csrf
             @method('post')
@@ -85,7 +96,9 @@
                 <label for="parent_id">Parent ID</label>
                 <select id="parent_id" name="parent_id" class="form-control">
                     <option value="">No Parent</option>
-                    <!-- يمكنك إضافة الخيارات الديناميكية هنا -->
+                    <?php foreach($parents as $parent): ?>
+                    <option value="<?=$parent->id ?>"><?= $parent->name; ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
