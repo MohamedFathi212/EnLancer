@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo config('app.name'); ?></title>
+    <title>{{config('app.name')}}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body {
@@ -86,11 +86,11 @@
 <div class="container">
     <h1>Categories</h1>
 
-    <?php if($flashMessage) : ?>
+   @if($flashMessage)
         <div class="alert alert-success">
-            <?=  $flashMessage; ?>
+                {{$flashMessage}}
         </div>
-    <?php endif; ?>
+   @endif
 
     <div class="d-flex justify-content-end mb-3">
         <a href="/categories/create" class="btn btn-primary btn-lg">Create New Category</a>
@@ -109,23 +109,24 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($categories as $category): ?>
+            @foreach ($categories as $category)
                 <tr>
-                    <td><?=$category->id; ?></td>
-                    <td><a href="/categories/<?= $category->id; ?>" class="text-decoration-none"><?=$category->name;?></a></td>
-                    <td><?=$category->slug; ?></td>
-                    <td><?=$category->parent_id; ?></td>
-                    <td><?=$category->created_at; ?></td>
-                    <td><a href="/categories/<?=$category->id ;?>/edit" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td>{{$category->id}}</td>
+                    <td><a href="/categories/{{$category->id}}" class="text-decoration-none">{{$category->name}}</a></td>
+                    <td>{{$category->slug}}</td>
+                    <td>{{$category->parent_id}}</td>
+                    <td>{{$category->created_at}}</td>
+                    <td><a href="/categories/{{$category->id}}/edit" class="btn btn-warning btn-sm">Edit</a></td>
                     <td>
-                        <form action="/categories/<?=$category->id ?>" method="post" onsubmit="return confirm('Are you sure you want to delete this category?');">
-                            <?= csrf_field() ?>
+                        <form action="/categories/{{$category->id}}" method="post" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                            <!-- {{csrf_field()}} -->
+                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+            @endforeach
         </tbody>
     </table>
 </div>
