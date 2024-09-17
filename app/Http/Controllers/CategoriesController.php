@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
@@ -17,6 +18,7 @@ class CategoriesController extends Controller
         return view('categories.index', [
             'categories' => $categories,
             'title' => 'Categories',
+            'flashMessage' => session('success'),
         ]);
     }
 
@@ -59,7 +61,7 @@ class CategoriesController extends Controller
 
                 // PRG => POST REDIRECT GET
 
-                return redirect('/categories');
+                return redirect('/categories')->with('success','Category Created');
             }
 
     public function edit($id)
@@ -79,12 +81,23 @@ class CategoriesController extends Controller
 
         // PRG => POST REDIRECT GET
 
-        return redirect('/categories');
+        return redirect('/categories')->with('success','Category Updated');;
 }
     public function destroy($id)
     {
-        Category::where( 'id', '=',$id)->delete();
-        return redirect('/categories'); 
+        // DB::table('categories')->where('id',$id)->delete();
+
+        // Category::where( 'id', '=',$id)->delete();
+
+        // $category = Category::findOrFail($id);
+        // $category->delete();
+
+
+        Category::destroy($id);
+        // session()->flash('success','Category Deleted');
+        Session::flash('success','Category Deleted');
+        return redirect('/categories');
+        // ->with('success','Category Deleted');
     }
 
 
