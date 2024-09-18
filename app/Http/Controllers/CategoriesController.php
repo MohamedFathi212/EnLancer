@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Rules\filterRules;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -12,7 +13,13 @@ class CategoriesController extends Controller
 {
 
     protected $rules = [
-        'name' => ['required', 'string', 'between:3,255'],
+        'name' => [
+        'required',
+        'string',
+        'between:3,255',
+        'filter',
+    ],
+
         'parent_id' => ['nullable', 'integer', 'exists:categories,id'],
         'description' => ['nullable', 'string'],  // Fixed 'descripton' typo
         'art_file' => ['nullable', 'image'],
@@ -34,7 +41,7 @@ class CategoriesController extends Controller
 
     public function show($id)
     {
-        $category = Category::findOrFail($id); // findOrFail already handles null, so no need for additional check
+        $category = Category::findOrFail($id);
         return view('categories.show', [
             'category' => $category
         ]);
@@ -49,11 +56,11 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
-        $clean = $request->validate($this->rules, $this->message);
+        $clean = $request->validate($this->rules(), $this->message);
 
         $category = new Category();
         $category->name = $request->input('name');
-        $category->description = $request->input('description');  // Fixed 'descripton' typo
+        $category->description = $request->input('description');
         $category->parent_id = $request->input('parent_id');
         $category->slug = Str::slug($category->name);
         $category->save();
@@ -71,7 +78,7 @@ class CategoriesController extends Controller
     public function update(Request $request, string $id)
     {
         $category = Category::findOrFail($id);
-        $clean = $request->validate($this->rules, $this->message);
+        $clean = $request->validate($this->rules(), $this->message);
 
         $category->name = $request->input('name');
         $category->description = $request->input('description');
@@ -87,6 +94,24 @@ class CategoriesController extends Controller
         Category::destroy($id);
         Session::flash('success', 'Category Deleted');
         return redirect('/categories');
+    }
+
+    public function rules()
+    {
+        $rules = $this->rules;
+
+        // $rules['name'][] = 'filter';
+        // $rules['name'][] = new filterRules();    بس لازم تكون عامل rules وتستدعي منهاا object
+
+
+        // Custom validation rule for name field
+        // $rules['name'][] = function ($attribute, $value, $fail) {
+            // if (strtolower($value) === 'god') {
+            //     $fail('This word is not allowed in the :attribute field.');
+        //     }
+        // };
+
+        return $rules;  // Ensure the rules array is returned
     }
 }
 
