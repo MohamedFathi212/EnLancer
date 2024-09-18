@@ -125,6 +125,8 @@
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                     </td>
+                    <td><a href="/categories/{{$category->id}}" class="btn btn-success btn-sm">Show</a></td>
+
                 </tr>
             @endforeach
         </tbody>
