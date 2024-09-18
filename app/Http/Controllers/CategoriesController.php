@@ -19,7 +19,6 @@ class CategoriesController extends Controller
         'between:3,255',
         'filter',
     ],
-
         'parent_id' => ['nullable', 'integer', 'exists:categories,id'],
         'description' => ['nullable', 'string'],  // Fixed 'descripton' typo
         'art_file' => ['nullable', 'image'],
@@ -113,6 +112,9 @@ class CategoriesController extends Controller
 
         return $rules;  // Ensure the rules array is returned
     }
+
+
+
 }
 
 

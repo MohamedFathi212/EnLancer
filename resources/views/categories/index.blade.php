@@ -1,90 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{config('app.name')}}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #f0f2f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #007bff;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-        .container {
-            margin-top: 30px;
-            max-width: 900px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        table {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        th, td {
-            text-align: center;
-            padding: 12px;
-            font-size: 1rem;
-            color: #333;
-        }
-        th {
-            background-color: #f1f1f1;
-            color: #333;
-            font-size: 1.1rem;
-        }
-        td {
-            background-color: #f9f9f9;
-        }
-        a.text-decoration-none {
-            color: #007bff;
-            font-weight: bold;
-        }
-        a.text-decoration-none:hover {
-            color: #0056b3;
-        }
-        .btn {
-            margin-right: 5px;
-        }
-        .alert {
-            text-align: center;
-            font-size: 1.1rem;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .btn-warning {
-            background-color: #ffc107;
-            border: none;
-        }
-        .btn-warning:hover {
-            background-color: #e0a800;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.dashboard')
+@section('content')
 
-<div class="container">
-    <h1>Categories</h1>
+@section( 'page-title','Categories')
+
 
    @if($flashMessage)
         <div class="alert alert-success">
@@ -106,6 +24,8 @@
                 <th>Created At</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                <th>Show</th>
+
             </tr>
         </thead>
         <tbody>
@@ -120,7 +40,7 @@
                     <td>
                         <form action="/categories/{{$category->id}}" method="post" onsubmit="return confirm('Are you sure you want to delete this category?');">
                             <!-- {{csrf_field()}} -->
-                             @csrf
+                            @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form>
@@ -132,6 +52,5 @@
         </tbody>
     </table>
 </div>
+@endsection
 
-</body>
-</html>
